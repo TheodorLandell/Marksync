@@ -1,11 +1,11 @@
 /**
- * API-modul för Gemini AI-analys
+ * API-modul för AI-analys med Groq
  * Hanterar matchning mellan CV och jobbannonser
  */
 
 import CONFIG from '../config.js';
 
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 /**
  * Skapar prompt för jobbmatchningsanalys
@@ -49,56 +49,57 @@ Var nyanserad och ärlig i din analys. Undvik överdrivet positiva eller negativ
 }
 
 /**
- * Analyserar matchning mellan CV och jobb med Gemini
+ * Analyserar matchning mellan CV och jobb med Groq
  * @param {string} cvText - Användarens CV
  * @param {object} job - Strukturerad jobbdata
  * @returns {Promise<object>} - Analysresultat
  */
 export async function analyzeJobMatch(cvText, job) {
     // Kontrollera att API-nyckel finns
-    if (!CONFIG.GEMINI_API_KEY || CONFIG.GEMINI_API_KEY === 'SÄTT-IN-DIN-NYCKEL-HÄR') {
-        throw new Error('Gemini API-nyckel saknas. Uppdatera js/config.js med din nyckel.');
+    if (!CONFIG.GROQ_API_KEY || CONFIG.GROQ_API_KEY === 'din-groq-nyckel-här') {
+        throw new Error('Groq API-nyckel saknas. Uppdatera js/config.js med din nyckel.');
     }
     
     const prompt = createAnalysisPrompt(cvText, job);
     
     const requestBody = {
-        contents: [{
-            parts: [{
-                text: prompt
-            }]
-        }],
-        generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 1500
-        }
+        model: 'llama-3.1-8b-instant',
+        messages: [
+            {
+                role: 'user',
+                content: prompt
+            }
+        ],
+        temperature: 0.7,
+        max_tokens: 1500
     };
     
     try {
-        const response = await fetch(`${GEMINI_API_URL}?key=${CONFIG.GEMINI_API_KEY}`, {
+        const response = await fetch(GROQ_API_URL, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${CONFIG.GROQ_API_KEY}`
             },
             body: JSON.stringify(requestBody)
         });
         
         if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(`Gemini API-fel: ${errorData.error?.message || response.statusText}`);
+            throw new Error(`API-fel: ${errorData.error?.message || response.statusText}`);
         }
         
         const data = await response.json();
         
         // Extrahera texten från svaret
-        const responseText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        const responseText = data.choices?.[0]?.message?.content;
         
         if (!responseText) {
-            throw new Error('Inget svar från Gemini');
+            throw new Error('Inget svar från AI');
         }
         
         // Försök parsa JSON från svaret
-        return parseGeminiResponse(responseText);
+        return parseAIResponse(responseText);
         
     } catch (error) {
         console.error('Fel vid AI-analys:', error);
@@ -107,11 +108,11 @@ export async function analyzeJobMatch(cvText, job) {
 }
 
 /**
- * Parsar Geminis svar och extraherar JSON
- * @param {string} responseText - Rå text från Gemini
+ * Parsar AI-svaret och extraherar JSON
+ * @param {string} responseText - Rå text från AI
  * @returns {object} - Strukturerat analysresultat
  */
-function parseGeminiResponse(responseText) {
+function parseAIResponse(responseText) {
     // Ta bort eventuella markdown-kodblock
     let cleanedText = responseText
         .replace(/```json\n?/g, '')
@@ -138,7 +139,7 @@ function parseGeminiResponse(responseText) {
         return result;
         
     } catch (parseError) {
-        console.error('Kunde inte parsa Gemini-svar:', parseError);
+        console.error('Kunde inte parsa AI-svar:', parseError);
         console.log('Råtext:', cleanedText);
         
         // Returnera ett standardsvar vid fel
