@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketSync - Jobbmatchning med AI</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <h1>MarketSync</h1>
+        <p>AI-baserad jobbmatchning för IT-branschen</p>
+    </header>
+
+    <main class="main-container">
+        <!-- Vänster kolumn: CV-inmatning -->
+        <section class="cv-section">
+            <h2>Ditt CV</h2>
+            <p class="section-description">Klistra in ditt CV som text nedan. Informationen används endast för att analysera matchning mot jobbannonser.</p>
+            
+            <textarea 
+                id="cv-input" 
+                placeholder="Klistra in ditt CV här..."
+                rows="15"
+            ></textarea>
+            
+            <div class="cv-status" id="cv-status">
+                <span class="status-dot"></span>
+                <span class="status-text">Inget CV inläst</span>
+            </div>
+        </section>
+
+        <!-- Mitten: Jobblista -->
+        <section class="jobs-section">
+            <h2>Lediga jobb</h2>
+            
+            <div class="jobs-filter">
+                <input 
+                    type="text" 
+                    id="search-input" 
+                    placeholder="Sök jobb (t.ex. frontend, backend, DevOps)..."
+                >
+                <button id="search-button" class="btn">Sök</button>
+            </div>
+
+            <div class="jobs-info" id="jobs-info">
+                Laddar jobb...
+            </div>
+
+            <div class="jobs-list" id="jobs-list">
+                <!-- Jobb renderas här -->
+            </div>
+        </section>
+
+        <!-- Höger kolumn: Analys -->
+        <section class="analysis-section">
+            <h2>AI-analys</h2>
+            
+            <div class="analysis-placeholder" id="analysis-placeholder">
+                <p>Välj ett jobb från listan för att se hur väl du matchar.</p>
+                <p class="hint">Tips: Se till att ditt CV är inläst först.</p>
+            </div>
+
+            <div class="analysis-result" id="analysis-result" style="display: none;">
+                <!-- Analysresultat renderas här -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>MarketSync - Skolprojekt | Data från Arbetsförmedlingen</p>
+    </footer>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

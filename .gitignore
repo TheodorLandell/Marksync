@@ -1,0 +1,6 @@
+# API-nyckel (innehåller känslig data)
+js/config.js
+
+# Övrigt
+.DS_Store
+node_modules/

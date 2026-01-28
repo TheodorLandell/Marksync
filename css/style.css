@@ -1,0 +1,378 @@
+/* ================================
+   Grundläggande stilar
+   ================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* ================================
+   Header
+   ================================ */
+
+.header {
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+}
+
+.header p {
+    opacity: 0.9;
+    font-size: 1rem;
+}
+
+/* ================================
+   Huvudlayout
+   ================================ */
+
+.main-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    min-height: calc(100vh - 180px);
+}
+
+/* ================================
+   Sektioner (gemensamt)
+   ================================ */
+
+.cv-section,
+.jobs-section,
+.analysis-section {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cv-section h2,
+.jobs-section h2,
+.analysis-section h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+}
+
+.section-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+/* ================================
+   CV-sektion
+   ================================ */
+
+#cv-input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    min-height: 200px;
+}
+
+#cv-input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.cv-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #e74c3c;
+}
+
+.cv-status.active .status-dot {
+    background-color: #27ae60;
+}
+
+/* ================================
+   Jobb-sektion
+   ================================ */
+
+.jobs-filter {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+#search-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background-color 0.2s;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+}
+
+.btn:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+.jobs-info {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.jobs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+/* ================================
+   Jobbkort
+   ================================ */
+
+.job-card {
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.job-card:hover {
+    border-color: #3498db;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.15);
+}
+
+.job-card.selected {
+    border-color: #3498db;
+    background-color: #f0f8ff;
+}
+
+.job-card-title {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.25rem;
+}
+
+.job-card-company {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.job-card-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.job-card-tag {
+    display: inline-block;
+    background-color: #e8f4fc;
+    color: #3498db;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+/* ================================
+   Analys-sektion
+   ================================ */
+
+.analysis-placeholder {
+    text-align: center;
+    padding: 2rem;
+    color: #888;
+}
+
+.analysis-placeholder .hint {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.analysis-result {
+    line-height: 1.7;
+}
+
+.analysis-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.analysis-header h3 {
+    font-size: 1.1rem;
+    color: #2c3e50;
+}
+
+.analysis-header p {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.analysis-block {
+    margin-bottom: 1.5rem;
+}
+
+.analysis-block h4 {
+    font-size: 1rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.analysis-block p {
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.analysis-icon {
+    font-size: 1.1rem;
+}
+
+.analysis-conclusion {
+    padding: 1rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+}
+
+.analysis-conclusion.suitable {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.analysis-conclusion.partial {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+}
+
+.analysis-conclusion.unsuitable {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+.analysis-conclusion h4 {
+    margin-bottom: 0.5rem;
+}
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-message {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+}
+
+/* ================================
+   Footer
+   ================================ */
+
+.footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #2c3e50;
+    color: white;
+    font-size: 0.85rem;
+}
+
+/* ================================
+   Responsiv design
+   ================================ */
+
+@media (max-width: 1200px) {
+    .main-container {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .analysis-section {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .analysis-section {
+        grid-column: span 1;
+    }
+}
