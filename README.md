@@ -1,86 +1,122 @@
 # MarketSync
 
-AI-baserad jobbmatchningsplattform med fokus på IT-branschen.
+AI-baserad jobbmatchningsplattform för arbetssökande inom IT.
 
-## Beskrivning
+---
 
-MarketSync hjälper arbetssökande att förstå hur väl deras kompetens matchar aktuella jobbannonser. Applikationen hämtar jobb från Arbetsförmedlingen och använder Gemini AI för att analysera matchning mellan användarens CV och utvalda jobb.
+## Vad gör appen?
 
-## Funktioner
+1. **Hämtar jobb** från Arbetsförmedlingen
+2. **Du klistrar in ditt CV** som text
+3. **Du klickar på ett jobb**
+4. **AI:n analyserar** hur bra ditt CV matchar jobbet
 
-- **Jobblista**: Hämtar och visar IT-relaterade jobb från Arbetsförmedlingen
-- **Jobbsökning**: Filtrera jobb baserat på sökord
-- **CV-inmatning**: Klistra in ditt CV som text
-- **AI-analys**: Analyserar matchning med tre tydliga avsnitt:
-  - Vad som matchar
-  - Vad som saknas
-  - Samlad bedömning och slutsats
+---
 
-## Installation
+## Kom igång
 
-1. Klona eller ladda ner projektet
+### 1. Skaffa Groq API-nyckel (gratis)
 
-2. Kopiera config-mallen och lägg till din API-nyckel:
-   ```bash
-   cp js/config.example.js js/config.js
-   ```
+1. Gå till [console.groq.com](https://console.groq.com)
+2. Skapa konto (kan logga in med Google)
+3. Klicka på "API Keys" → "Create API Key"
+4. Kopiera nyckeln
 
-3. Öppna `js/config.js` och ersätt `'din-api-nyckel-här'` med din Gemini API-nyckel
+### 2. Konfigurera projektet
 
-4. Starta en lokal server (eftersom projektet använder ES-moduler):
-   ```bash
-   # Med Python 3
-   python -m http.server 8000
-   
-   # Med Node.js (om du har live-server)
-   npx live-server
-   ```
+Öppna `js/config.js` och klistra in din nyckel:
 
-5. Öppna `http://localhost:8000` i webbläsaren
+```javascript
+const CONFIG = {
+    GROQ_API_KEY: 'din-nyckel-här'  // ← Byt ut detta
+};
 
-## Skaffa Gemini API-nyckel
+export default CONFIG;
+```
 
-1. Gå till [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. Klicka på "Create API Key"
-3. Kopiera nyckeln och klistra in i `js/config.js`
+**OBS!** Glöm inte citattecknen runt nyckeln!
+
+### 3. Starta servern
+
+Projektet kräver en lokal server (på grund av ES-moduler).
+
+**Med Python:**
+```bash
+python -m http.server 8000
+```
+
+**Med Node.js:**
+```bash
+npx live-server
+```
+
+### 4. Öppna i webbläsaren
+
+Gå till: `http://localhost:8000`
+
+---
 
 ## Projektstruktur
 
 ```
 marketsync/
-├── index.html              # Huvudsida
+├── index.html          ← Huvudsidan
 ├── css/
-│   └── style.css           # Styling
+│   └── style.css       ← All styling
 ├── js/
-│   ├── config.js           # API-nyckel (gitignored)
-│   ├── config.example.js   # Mall för config
-│   ├── main.js             # Huvudlogik
+│   ├── main.js         ← Hjärnan - kopplar ihop allt
+│   ├── config.js       ← API-nyckel (gitignored)
 │   ├── api/
-│   │   ├── jobsApi.js      # Arbetsförmedlingen API
-│   │   └── geminiApi.js    # Gemini AI API
+│   │   ├── jobsApi.js  ← Hämtar jobb från Arbetsförmedlingen
+│   │   └── geminiApi.js← Skickar till AI (Groq)
 │   ├── ui/
-│   │   ├── jobList.js      # Jobblista UI
-│   │   ├── cvForm.js       # CV-formulär UI
-│   │   └── analysisView.js # Analys UI
+│   │   ├── jobList.js  ← Visar jobbkorten
+│   │   ├── cvForm.js   ← Hanterar CV-inmatning
+│   │   └── analysisView.js ← Visar analysresultatet
 │   └── utils/
-│       └── helpers.js      # Hjälpfunktioner
-├── .gitignore
-└── README.md
+│       └── helpers.js  ← Hjälpfunktioner
+└── .gitignore          ← Skyddar config.js
 ```
+
+---
+
+## Hur flödet fungerar
+
+```
+Sidan laddas
+     │
+     ▼
+main.js startar
+     │
+     ├──► Hämtar jobb från Arbetsförmedlingen
+     │              │
+     │              ▼
+     │         Visar jobbkort
+     │
+     ├──► Lyssnar på CV-inmatning
+     │              │
+     │              ▼
+     │         Grön prick när CV finns
+     │
+     └──► Lyssnar på jobbklick
+                    │
+                    ▼
+              Skickar CV + jobb till AI
+                    │
+                    ▼
+              Visar analysresultat
+```
+
+---
 
 ## Teknologier
 
-- Vanilla JavaScript (ES6 Modules)
-- CSS3
-- [Jobtech Job Search API](https://jobsearch.api.jobtechdev.se)
-- [Gemini AI API](https://ai.google.dev/)
+| Teknik | Används till |
+|--------|--------------|
+| HTML | Sidans struktur |
+| CSS | Styling och layout |
+| JavaScript (ES6) | All logik |
+| [Jobtech API](https://jobsearch.api.jobtechdev.se) | Hämtar jobb |
+| [Groq API](https://groq.com) | AI-analys |
 
-## Säkerhet
-
-⚠️ **OBS**: I denna prototyp exponeras Gemini API-nyckeln i frontend. Detta är acceptabelt för ett skolprojekt men **inte för produktion**.
-
-I en produktionsmiljö bör API-anrop till Gemini ske via en backend-server för att skydda nyckeln.
-
-## Licens
-
-Skolprojekt - fri användning för utbildningssyfte.
+---
